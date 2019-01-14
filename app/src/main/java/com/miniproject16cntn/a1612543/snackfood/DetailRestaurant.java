@@ -1,21 +1,36 @@
 package com.miniproject16cntn.a1612543.snackfood;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,8 +44,10 @@ public class DetailRestaurant extends AppCompatActivity {
     private TextView time;
     private TextView description;
     private TableLayout menu;
-    private Button btnViewMap;
+    private Button btnViewMap, btnLienHe, btnChiaSe;
     private ImageView imgFavorite;
+    private TextView tvPhoneNumber;
+    ShareDialog shareDialog;
     Restaurant restaurant;
 
     public static final String LATLNG = "LATLNG";
@@ -74,6 +91,44 @@ public class DetailRestaurant extends AppCompatActivity {
                 MainActivity.dbRestaurant.updateFavorite(restaurant);
             }
         });
+
+        btnLienHe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogConfirm();
+            }
+        });
+        btnChiaSe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareToFacebook();
+            }
+        });
+
+    }
+
+
+
+    private void showDialogConfirm() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.choose_feature_dialog);
+        ImageButton btnCall = (ImageButton) dialog.findViewById(R.id.btn_call);
+        ImageButton btnChat = (ImageButton) dialog.findViewById(R.id.btn_chat);
+
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callNumber();
+            }
+        });
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                smsSendMessage();
+            }
+        });
+
+        dialog.show();
     }
 
     public void showMenu()
@@ -126,6 +181,7 @@ public class DetailRestaurant extends AppCompatActivity {
         String timeString = restaurant.getStartTime() + " - " + restaurant.getEndTime();
         time.setText(timeString);
         description.setText(restaurant.getDescription());
+        tvPhoneNumber.setText(restaurant.getPhonenumber());
         showMenu();
     }
 
@@ -138,5 +194,61 @@ public class DetailRestaurant extends AppCompatActivity {
         description =  findViewById(R.id.detail_description);
         menu =  findViewById(R.id.detail_menu);
         btnViewMap = findViewById(R.id.btn_view_on_map);
+        tvPhoneNumber = findViewById(R.id.detail_phoneNumber);
+        btnLienHe = findViewById(R.id.btn_lien_he);
+        btnChiaSe = findViewById(R.id.btn_chia_se);
+
     }
+
+    public void callNumber() {
+        String phone_number = restaurant.getPhonenumber();
+
+        String phoneNumber = String.format("tel: %s",
+                phone_number);
+        Log.d(TAG, "Phone status: DIALING:" + phoneNumber);
+        Toast.makeText(this,
+                "Phone status: DIALING:" + phoneNumber,
+                Toast.LENGTH_LONG).show();
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse(phoneNumber));
+        if (callIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(callIntent);
+        } else {
+            Log.e(TAG, "Can't resolve app for ACTION_CALL Intent.");
+        }
+    }
+
+    public void smsSendMessage() {
+        String phone_number = restaurant.getPhonenumber();
+
+        String smsNumber = String.format("smsto: %s",
+                phone_number);
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+        smsIntent.setData(Uri.parse(smsNumber));
+        smsIntent.putExtra("sms_body", "");
+        if (smsIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(smsIntent);
+        } else {
+            Log.d(TAG, "Can't resolve app for ACTION_SENDTO Intent");
+        }
+    }
+
+
+    private void shareToFacebook() {
+        shareDialog = new ShareDialog(this);
+
+        String content = restaurant.getName() +"\n"
+                + restaurant.getDescription() +"\n"
+                + restaurant.getAddress();
+        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                .setQuote(content)
+                .setContentUrl(Uri.parse(""))
+                .build();
+        if (ShareDialog.canShow(ShareLinkContent.class))
+        {
+            shareDialog.show(linkContent);
+        }
+
+    }
+
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_margin="10dp"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Cảm ơn bạn đã muốn liên lạc, phản hồi. Bấm vào nút bên dưới để gửi email đến nhà phát triển ứng dụng"/>
+    <Button
+        android:id="@+id/btn_send_feedback"
+        android:layout_width="150dp"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Gửi phản hồi"
+        android:textColor="#fff"
+        android:textAllCaps="false"
+        android:background="@drawable/rect_blue"
+        />
+</LinearLayout>

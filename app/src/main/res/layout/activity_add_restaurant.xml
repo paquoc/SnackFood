@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nhập thông tin quán"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        android:textColor="#00d"
+        android:textSize="25dp"/>
+    <GridLayout
+        android:layout_margin="7dp"
+
+        android:background="#aaa"
+        android:layout_width="match_parent"
+        android:layout_height="2dp">
+
+    </GridLayout>
+
+    <ScrollView
+        android:layout_weight="15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--Name-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <!--label Tên quán-->
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên quán"
+                    android:textSize="15dp" />
+                <LinearLayout
+                    android:layout_weight="0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/add_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dad8d8" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Address-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <!--label Tên quán-->
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Địa chỉ"
+                    android:textSize="15dp" />
+                <LinearLayout
+                    android:layout_weight="0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/add_pick_place"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/placepicker"
+                        />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/add_tvaddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:textColor="#333333"
+                        android:background="#00000000"
+                        android:maxLines="2"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dad8d8" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--List Eating-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!--Label Các món ăn-->
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Các món ăn"
+                    android:textSize="15dp"
+                    />
+
+                <!--Phần nhập món ăn-->
+                <LinearLayout
+                    android:layout_weight="0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!--Nhập món ăn 1-->
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:hint="Món1"
+                            android:textSize="15dp"
+                            android:textAlignment="center"
+                            android:layout_weight="0.7"
+                            android:id="@+id/add_food1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            />
+                        <EditText
+                            android:hint="Giá(đ)"
+                            android:textAlignment="center"
+                            android:layout_weight="1"
+                            android:id="@+id/add_price1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                        <EditText
+                            android:hint="Đơn vị"
+                            android:textAlignment="center"
+                            android:layout_weight="1"
+                            android:id="@+id/add_unit1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                    </LinearLayout>
+
+                    <!--Nhập món ăn 2-->
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:hint="Món2"
+                            android:textAlignment="center"
+                            android:layout_weight="0.7"
+                            android:id="@+id/add_food2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333333"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                        <EditText
+                            android:hint="Giá(đ)"
+                            android:textAlignment="center"
+                            android:layout_weight="1"
+                            android:id="@+id/add_price2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                        <EditText
+                            android:hint="Đơn vị"
+                            android:textAlignment="center"
+                            android:layout_weight="1"
+                            android:id="@+id/add_unit2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                    </LinearLayout>
+
+                    <!--Nhập món ăn 3-->
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:hint="Món3"
+                            android:textAlignment="center"
+                            android:layout_weight="0.7"
+                            android:id="@+id/add_food3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                        <EditText
+                            android:hint="Giá(đ)"
+                            android:textAlignment="center"
+                            android:layout_weight="1"
+                            android:id="@+id/add_price3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                        <EditText
+                            android:hint="Đơn vị"
+                            android:textAlignment="center"
+                            android:layout_weight="1"
+                            android:id="@+id/add_unit3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:maxLines="1"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--Time-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <!--label Tên quán-->
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian hoạt động"
+                    android:textSize="15dp" />
+
+                <!--Chọn thời gian từ PickerDialog-->
+                <LinearLayout
+                    android:layout_weight="0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/add_start_time"
+                        android:layout_weight="1"
+                        android:hint="Giờ mở cửa"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:maxLines="1"
+                        />
+                    <EditText
+                        android:hint="Giờ đóng cửa"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:id="@+id/add_end_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:maxLines="1"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Image-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <!--label Ảnh-->
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hình ảnh"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_weight="0.6"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btn_choose_image"
+                        android:layout_gravity="left"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="4dp"
+                        android:drawableStart="@drawable/gallery"
+                        android:textAllCaps="false"
+                        />
+                    <Button
+                        android:id="@+id/btn_get_camera"
+                        android:layout_gravity="left"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="4dp"
+                        android:drawableStart="@drawable/camera"
+                        android:textAllCaps="false"
+                        />
+                    <ImageView
+                        android:id="@+id/add_imageview"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="end"
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--Description-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+                <!--label Mô tả-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mô tả ngắn về quán"
+                    android:textSize="15dp" />
+                <EditText
+                    android:textAlignment="textStart"
+                    android:id="@+id/add_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:maxLines="7"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:gravity="center_vertical"
+            android:id="@+id/btn_add_restaurant"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Thêm quán ăn"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:background="@drawable/rect_blue"/>
+    </LinearLayout>
+
+</LinearLayout>

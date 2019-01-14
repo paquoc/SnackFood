@@ -1,0 +1,47 @@
+https://thangcoder.com/lap-trinh-android/hoc-lap-trinh-android-nang-cao/sqlite-trong-lap-trinh-android
+Tham khảo phần SQLite
+
+https://thangcoder.com/lap-trinh-android/huong-dan-custom-listview-trong-android
+https://thangcoder.com/lap-trinh-android/hoc-lap-trinh-android-can-ban/su-dung-listview-trong-lap-trinh-android
+
+https://thangcoder.com/lap-trinh-android/chuyen-doi-giua-cac-activity-voi-nhau-trong-android
+https://thangcoder.com/lap-trinh-android/hoc-lap-trinh-android-can-ban/truyen-du-lieu-giua-cac-activity-voi-nhau-trong-android
+
+https://thangcoder.com/lap-trinh-android/hoc-lap-trinh-android-nang-cao/6-cach-xu-ly-su-kien-trong-lap-trinh-android
+
+https://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database Lưu ảnh trong SQLite 
+
+https://csc.edu.vn/lap-trinh-di-dong/tin-tuc/kham-pha-lap-trinh-di-dong/hoc-lap-trinh-android-bai-tap-lam-viec-voi-sqlite-919
+
+https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding
+https://rdcworld-android.blogspot.com/2012/01/get-current-location-coordinates-city.html
+
+https://stackoverflow.com/questions/3145089/what-is-the-simplest-and-most-robust-way-to-get-the-users-current-location-on-a/3145655#3145655
+https://phocode.com/blog/2016/06/07/android-dinh-vi-gps/
+https://stackoverflow.com/questions/38727517/oncamerachangelistener-is-deprecated/38732283#38732283
+https://www.youtube.com/watch?v=Rh9x90lqPHc
+https://viblo.asia/p/google-place-api-p1-place-autocomplete-QpmleQXrlrd
+https://developers.google.com/places/android-sdk/placepicker
+
+
+https://developer.android.com/training/implementing-navigation/nav-drawer
+
+
+Những quán nào?
+- Cửa hàng trái cây
+- Xe trái cây 
+- Bánh xèo (cổng chui, 2 quán)
+- Bún thịt nướng
+- 
+
+private int id;
+    private String name;
+    private String[] listEating;
+    private int[] price;
+    private String address;
+    private LatLng latLng;
+    private Double startTime;
+    private Double endTime;
+    private byte[] image;
+    private String description;
+    private String[] unit;

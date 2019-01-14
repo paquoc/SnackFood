@@ -1,14 +1,14 @@
 package com.miniproject16cntn.a1612543.snackfood;
 
 import android.Manifest;
-import android.content.ContentResolver;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -21,19 +21,31 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.miniproject16cntn.a1612543.snackfood.DirectionFinder.DirectionFinder;
+import com.miniproject16cntn.a1612543.snackfood.DirectionFinder.DirectionFinderListener;
+import com.miniproject16cntn.a1612543.snackfood.DirectionFinder.Route;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
 
     private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000;
     private static final float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1;
     private static final int REQUEST_CODE_LOCATION = 1;
     private GoogleMap mMap;
-    private LatLng latLng;
+    private LatLng PositionRestaurant;
+    private LatLng PositionPeople;
     private String infoWindow;
     private LocationManager locationManager;
     private Button btnShowRoute;
+    private ProgressDialog progressDialog;
+    public List<Polyline> polylinePaths;
 
 
     @Override
@@ -55,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        polylinePaths = new ArrayList<>();
+
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
         Intent intent = getIntent();
@@ -62,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (code.compareTo(DetailRestaurant.CODE) == 0)
         {
-            latLng = intent.getExtras().getParcelable(DetailRestaurant.LATLNG);
+            PositionRestaurant = intent.getExtras().getParcelable(DetailRestaurant.LATLNG);
             infoWindow = intent.getStringExtra(DetailRestaurant.TAG);
         }
 
@@ -83,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if(location != null)
                 {
-                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    PositionRestaurant = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             }
         }
@@ -91,10 +105,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void ShowRoute() {
         GetCurrentLocation();
+        if (PositionRestaurant != null){
+            new DirectionFinder(this, PositionPeople, PositionRestaurant).execute();
+
+        }
     }
 
     private void GetCurrentLocation() {
-        latLng = null;
+        PositionPeople = null;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
@@ -111,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             if(location != null)
             {
-                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                PositionPeople = new LatLng(location.getLatitude(), location.getLongitude());
             }
         }
     }
@@ -127,11 +145,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void showMarker() {
         Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(latLng)
+                .position(PositionRestaurant)
                 .title(infoWindow));
 
         marker.showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PositionRestaurant, 18));
     }
 
 
@@ -157,15 +175,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setScrollGesturesEnabled(true);
         showMarker();
+    }
+
+    @Override
+    public void onDirectionFinderStart() {
+        progressDialog = ProgressDialog.show(this, "Please wait.",
+                "Finding direction..!", true);
+        if (polylinePaths != null) {
+            for (Polyline polyline:polylinePaths ) {
+                polyline.remove();
+            }
+        }
+    }
+
+    @Override
+    public void onDirectionFinderSuccess(List<Route> routes) {
+        progressDialog.dismiss();
+        polylinePaths = new ArrayList<>();
+        for (Route route : routes){
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(route.bounds,200));
+            Marker markerOrigin = mMap.addMarker(new MarkerOptions()
+                    .position(route.startLocation));
+            Marker markerDestination = mMap.addMarker(new MarkerOptions()
+                    .position(route.endLocation));
+            markerDestination.showInfoWindow();
+            markerOrigin.showInfoWindow();
+            PolylineOptions polylineOptions = new PolylineOptions().
+                    geodesic(true).
+                    color(Color.BLUE).
+                    width(10);
+            for(int i = 0; i < route.points.size(); i++)
+                polylineOptions.add(route.points.get(i));
+
+            polylinePaths.add(mMap.addPolyline(polylineOptions));
+        }
     }
 
 
     private class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
-            latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+            PositionRestaurant = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PositionRestaurant, 18));
         }
 
         @Override

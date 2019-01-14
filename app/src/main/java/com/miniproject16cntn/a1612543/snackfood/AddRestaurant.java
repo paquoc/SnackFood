@@ -54,11 +54,6 @@ public class AddRestaurant  extends AppCompatActivity {
     private TextView textView;
 
     private Calendar calendar;
-    private int hour;
-    private int minute;
-
-    private final int START = 0;
-    private final int END = 1;
     public static final String CODE = "ADDRESTAURANT";
     private TimePickerDialog.OnTimeSetListener startTimeSetListener;
     private TimePickerDialog.OnTimeSetListener endTimeSetListener;

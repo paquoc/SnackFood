@@ -9,9 +9,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,10 +28,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000;
     private static final float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1;
+    private static final int REQUEST_CODE_LOCATION = 1;
     private GoogleMap mMap;
     private LatLng latLng;
     private String infoWindow;
     private LocationManager locationManager;
+    private Button btnShowRoute;
 
 
     @Override
@@ -41,6 +46,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        btnShowRoute = findViewById(R.id.btn_show_route);
+        btnShowRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowRoute();
+            }
+        });
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
@@ -56,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else if (code.compareTo(AddRestaurant.CODE) == 0)
         {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE_LOCATION);
             }
             else {
                 locationManager.requestLocationUpdates(
@@ -73,6 +86,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             }
+        }
+    }
+
+    private void ShowRoute() {
+        GetCurrentLocation();
+    }
+
+    private void GetCurrentLocation() {
+        latLng = null;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+        }
+        else {
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    MINIMUM_TIME_BETWEEN_UPDATES,
+                    MINIMUM_DISTANCE_CHANGE_FOR_UPDATES,
+                    new MyLocationListener()
+            );
+
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if(location != null)
+            {
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_LOCATION)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                GetCurrentLocation();
         }
     }
 

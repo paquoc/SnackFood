@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -21,10 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class DBRestaurant extends SQLiteOpenHelper {
@@ -44,6 +41,7 @@ public class DBRestaurant extends SQLiteOpenHelper {
     private static final String DESCRIPTION = "description";
     private static final String UNIT = "unit";
     private static final String FAVORITE = "favorite";
+    private static final String PHONENUMBER = "phonenumber";
 
     public static String DB_PATH;
 
@@ -60,6 +58,7 @@ public class DBRestaurant extends SQLiteOpenHelper {
     private final int cDECRIPTION = 10;
     private final int cUNIT = 11;
     private final int cFAVORITE = 12;
+    private final int cPHONENUMBER = 13;
 
     private Context context;
 
@@ -117,7 +116,8 @@ public class DBRestaurant extends SQLiteOpenHelper {
                 IMAGE + " BLOB,"+
                 DESCRIPTION + " TEXT," +
                 UNIT + " TEXT," +
-                FAVORITE + " NUMERIC)";
+                FAVORITE + " NUMERIC," +
+                PHONENUMBER + " TEXT)";
         db.execSQL(sqlQuery);
         Toast.makeText(context, "Create Database successfylly", Toast.LENGTH_SHORT).show();
     }
@@ -149,6 +149,7 @@ public class DBRestaurant extends SQLiteOpenHelper {
         values.put(DESCRIPTION,restaurant.getDescription());
         values.put(UNIT, restaurant.getUnit());
         values.put(FAVORITE, restaurant.getFavorite());
+        values.put(PHONENUMBER, restaurant.getPhonenumber());
 
         db.insert(TABLE_NAME, null, values);
 
@@ -159,7 +160,7 @@ public class DBRestaurant extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, new String[] { ID,
-                        NAME, LIST,PRICE,ADDRESS,LAT,LNG, STARTTIME, ENDTIME, IMAGE, DESCRIPTION, UNIT, FAVORITE}, ID + "=?",
+                        NAME, LIST,PRICE,ADDRESS,LAT,LNG, STARTTIME, ENDTIME, IMAGE, DESCRIPTION, UNIT, FAVORITE, PHONENUMBER}, ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -185,6 +186,7 @@ public class DBRestaurant extends SQLiteOpenHelper {
         restaurant.setDescription(cursor.getString(cDECRIPTION));
         restaurant.setUnit(cursor.getString(cUNIT));
         restaurant.setFavorite(cursor.getInt(cFAVORITE));
+        restaurant.setPhonenumber(cursor.getString(cPHONENUMBER));
 
         return restaurant;
     }
@@ -336,6 +338,13 @@ public class DBRestaurant extends SQLiteOpenHelper {
                 getBytes(R.drawable.chickenleg)
         ));
 
+        List<String> listPhoneNumbers = new ArrayList<>(Arrays.asList(
+                "0328039754",
+                "0328039755",
+                "0328039756",
+                "0328039757",
+                "0328039758"));
+
         List<Integer> listFavorite = new ArrayList<Integer>(Arrays.asList(0,0,1,0,1));
 //endregion
 
@@ -352,7 +361,8 @@ public class DBRestaurant extends SQLiteOpenHelper {
                     listImage.get(i),
                     listDescription.get(i),
                     listUnit.get(i),
-                    listFavorite.get(i));
+                    listFavorite.get(i),
+                    listPhoneNumbers.get(i));
             this.addRestaurant(restaurant);
         }
     }

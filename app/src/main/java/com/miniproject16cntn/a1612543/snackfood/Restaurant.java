@@ -21,13 +21,14 @@ public class Restaurant {
     private String description;
     private String[] unit;
     private int favorite;
+    private String phonenumber;
 
 
     public  Restaurant(){}
 
     public Restaurant(int id, String name, String[] listEating, int[] price, String address,
                       LatLng latLng, String startTime, String endTime, byte[] image,
-                      String description, String[] unit, int favorite) {
+                      String description, String[] unit, int favorite, String phonenumber) {
         this.id = id;
         this.name = name;
         this.listEating = listEating;
@@ -40,6 +41,7 @@ public class Restaurant {
         this.description = description;
         this.unit = unit;
         this.favorite = favorite;
+        this.phonenumber = phonenumber;
     }
 
     //region Get, Set Id
@@ -259,5 +261,13 @@ public class Restaurant {
 
     public void setFavorite(int favorite) {
         this.favorite = favorite;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 }

@@ -61,7 +61,10 @@
                         android:hint="Nhập món ăn hoặc tên quán"
                         android:textSize="15sp"
                         android:layout_gravity="center"
-                        android:textColor="#a9a9b0"/>
+                        android:textColor="#a9a9b0"
+                        android:focusable="false"
+                        android:focusableInTouchMode="true"
+                        />
 
                     <Button
                         android:id="@+id/btn_search"

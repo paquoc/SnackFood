@@ -217,8 +217,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
-            PositionRestaurant = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PositionRestaurant, 18));
+//            PositionRestaurant = new LatLng(location.getLatitude(), location.getLongitude());
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PositionRestaurant, 18));
         }
 
         @Override

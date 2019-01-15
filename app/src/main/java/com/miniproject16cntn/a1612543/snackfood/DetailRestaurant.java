@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Array;
@@ -104,7 +105,6 @@ public class DetailRestaurant extends AppCompatActivity {
                 shareToFacebook();
             }
         });
-
     }
 
 
@@ -242,7 +242,7 @@ public class DetailRestaurant extends AppCompatActivity {
                 + restaurant.getAddress();
         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                 .setQuote(content)
-                .setContentUrl(Uri.parse(""))
+                .setContentUrl(Uri.parse("https://www.google.com/maps/search/"+ restaurant.getAddress()))
                 .build();
         if (ShareDialog.canShow(ShareLinkContent.class))
         {
@@ -250,5 +250,7 @@ public class DetailRestaurant extends AppCompatActivity {
         }
 
     }
+
+
 
 }
